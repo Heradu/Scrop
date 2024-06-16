@@ -1,7 +1,7 @@
 import schedule
 import time
 from scraper import scrape_latest_news
-from translator import generate_twitter_post  # Updated function name
+from translator import generate_twitter_post
 from twitter_client import post_to_twitter
 from database import get_db, NewsArticle
 
@@ -17,7 +17,7 @@ def job():
         post_to_twitter(twitter_post, article['image_url'])
         
         new_article = NewsArticle(
-            title=article['title'],  # We still keep the title for reference in the database
+            title=article['title'],  # Title is kept for reference in the database
             url=article['url'], 
             image_url=article['image_url']
         )
