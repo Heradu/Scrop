@@ -1,8 +1,7 @@
 import schedule
 import time
 from scraper import scrape_latest_news
-from translator import translate_to_spanish
-from summarizer import summarize_text
+from translator import generate_twitter_post  # Updated function name
 from twitter_client import post_to_twitter
 from database import get_db, NewsArticle
 
@@ -13,14 +12,12 @@ def job():
         if db.query(NewsArticle).filter(NewsArticle.url == article['url']).first():
             continue
         
-        translated_title = translate_to_spanish(article['title'])
-        translated_content = translate_to_spanish(article['content'])
-        summarized_content = summarize_text(translated_content)
+        twitter_post = generate_twitter_post(article['title'], article['content'])
         
-        post_to_twitter(translated_title, summarized_content, article['image_url'])
+        post_to_twitter(twitter_post, article['image_url'])
         
         new_article = NewsArticle(
-            title=article['title'], 
+            title=article['title'],  # We still keep the title for reference in the database
             url=article['url'], 
             image_url=article['image_url']
         )
