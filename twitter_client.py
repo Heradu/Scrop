@@ -1,5 +1,6 @@
 import tweepy
 import os
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,9 +17,9 @@ def create_api():
     api = tweepy.API(auth)
     return api
 
-def post_to_twitter(title, summary, image_url):
+def post_to_twitter(post, image_url):
     api = create_api()
-    tweet = f"{title}\n\n{summary}"
+    tweet = post
     
     filename = 'temp.jpg'
     request = requests.get(image_url, stream=True)
